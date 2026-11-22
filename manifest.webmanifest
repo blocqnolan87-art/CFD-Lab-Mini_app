@@ -1,0 +1,17 @@
+{
+  "name": "CFD Lab — Apprendre les CFD",
+  "short_name": "CFD Lab",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08111f",
+  "theme_color": "#08111f",
+  "description": "Académie et simulateur de trading CFD pédagogique.",
+  "icons": [
+    {
+      "src": "/assets/cfd-lab-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
