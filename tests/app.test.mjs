@@ -17,4 +17,11 @@ test('learning progress is stored locally and risk is explained', () => {
   assert.match(html, /localStorage/); assert.match(html, /levier amplifie/i); assert.match(html, /pertes/i);
 });
 
-test('virtual positions can persist and be closed into a trade journal', () => {\n  assert.match(html, /cfdVirtualSession/); assert.match(html, /function pnlAt\\(/); assert.match(html, /function closePosition\\(/); assert.match(html, /tradeHistory/); assert.match(html, /tradeLog/); assert.match(html, /Clôturer la position/);\n});\n
+test('virtual positions can persist and be closed into a trade journal', () => {
+  assert.match(html, /cfdVirtualSession/);
+  assert.match(html, /function pnlAt\(/);
+  assert.match(html, /function closePosition\(/);
+  assert.match(html, /tradeHistory/);
+  assert.match(html, /tradeLog/);
+  assert.match(html, /Clôturer la position/);
+});
