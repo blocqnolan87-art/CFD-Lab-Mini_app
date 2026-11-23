@@ -101,7 +101,7 @@ test('risk sizing rejects invalid inputs',()=>{
 });
 
 
-test('academy risk-budget exercise is accessible and uses the validated sizing engine',()=>{assert.match(html,/Exercice : budget de risque/);assert.match(html,/id="riskCapital"/);assert.match(html,/id="riskPercent"/);assert.match(html,/id="stopDistance"/);assert.match(html,/id="riskLeverage"/);assert.match(html,/id="riskExercise"/);assert.match(html,/id="riskExerciseResult" aria-live="polite"/);assert.match(html,/positionSizeFromRisk\(/);assert.match(html,/perte au stop estimée/);});
+test('academy risk-budget exercise is accessible and uses the validated sizing engine',()=>{assert.match(html,/Exercice : budget de risque/);assert.match(html,/id="riskCapitalAcademy"/);assert.match(html,/id="riskPercentAcademy"/);assert.match(html,/id="stopDistanceAcademy"/);assert.match(html,/id="riskLeverageAcademy"/);assert.match(html,/id="riskExercise"/);assert.match(html,/id="riskExerciseResult" aria-live="polite"/);assert.match(html,/positionSizeFromRisk\(/);assert.match(html,/perte au stop estimée/);});
 test('academy quiz has five staged questions, feedback, scoring and restart controls',()=>{
   assert.match(html,/Quiz de validation/);
   assert.match(html,/quizItems=\[/);
