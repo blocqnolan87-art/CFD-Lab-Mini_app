@@ -29,6 +29,14 @@ Dans BotFather, configurer le bouton/menu de la Mini App avec l'URL HTTPS publi�
 - Ne jamais committer de tokens, clés API, identifiants ou secrets.
 - Le code prépare le SDK Telegram côté client; le bot et son URL seront configurés à la fin.
 
-## Suite de développement
+## Simulateur — état fonctionnel
 
-Avant un test éducatif plus avancé : implémenter des positions virtuelles persistantes, une clôture explicite, un journal de trades, l'import CSV OHLC validé et un replay sans look-ahead. Les données de marché doivent être sourcées et documentées avant toute utilisation pédagogique réaliste.
+- Positions fictives conservées localement, ouverture/fermeture et journal des trades.
+- P&L pédagogique calculé à partir du prix visible; capital initial de démonstration 100 €.
+- Import CSV OHLC : au moins 20 bougies, colonnes OHLC requises, valeurs numériques et cohérence high/low contrôlées. Si une colonne date/heure est fournie, chaque date doit être interprétable et strictement croissante, sans doublon.
+- Replay pas-à-pas : les bougies sont révélées séquentiellement; aucune bougie future n'est utilisée pour le P&L affiché.
+- Tests automatiques couvrant l'import, les erreurs OHLC, les dates invalides, le replay et le P&L.
+
+## Limites à garder en tête
+
+Le simulateur reste un outil d'apprentissage : données importées par l'utilisateur ou synthétiques, sans flux de cotations garanti. Le P&L n'intègre pas encore fidèlement spread, commissions, financement overnight, marge, liquidation ni glissement. Pas de broker, de compte Revolut ou d'ordre réel. La connexion Telegram Mini App et son test sur iPhone restent une étape manuelle BotFather après confirmation de l'URL HTTPS publiée.
