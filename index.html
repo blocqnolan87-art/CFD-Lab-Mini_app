@@ -22,7 +22,7 @@
 <footer>CFD Lab · Démonstration pédagogique · Aucun conseil financier</footer>
 <script type="module">
 import { parseOhlcCsv, createReplay, virtualPnl, positionSizeFromRisk, estimateCfdScenario, sanitizeVirtualSession } from './src/simulator-engine.mjs';
-const $=s=>document.querySelector(s);let learned=JSON.parse(localStorage.getItem('cfdLessons')||'[]');function progress(){$('#progress').textContent=Math.round(learned.length/8*100)+'%'}progress();
+const $=s=>document.querySelector(s);let learned=JSON.parse(localStorage.getItem('cfdLessons')||'[]');function progress(){const total=document.querySelectorAll('[data-lesson]').length;const completed=new Set(learned.filter(n=>document.querySelector('[data-lesson="'+n+'"]'))).size;$('#progress').textContent=(total?Math.round(completed/total*100):0)+'%'}progress();
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('main').forEach(m=>m.classList.add('hidden'));$('#'+b.dataset.tab).classList.remove('hidden');document.querySelectorAll('[data-tab]').forEach(x=>x.setAttribute('aria-selected',x===b))}));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>document.querySelector('[data-tab=academy]').click()));
 document.querySelectorAll('[data-lesson]').forEach(b=>{if(learned.includes(+b.dataset.lesson))b.textContent='✓ Leçon validée';b.addEventListener('click',()=>{const n=+b.dataset.lesson;if(!learned.includes(n))learned.push(n);localStorage.setItem('cfdLessons',JSON.stringify(learned));b.textContent='✓ Leçon validée';progress()})});
