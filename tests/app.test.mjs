@@ -90,3 +90,16 @@ test('risk sizing rejects invalid inputs',()=>{
   assert.throws(()=>positionSizeFromRisk(100,0,2,5),/Paramètres de risque/);
   assert.throws(()=>positionSizeFromRisk(100,1,2,0),/Paramètres de risque/);
 });
+
+
+test('academy quiz has five staged questions, feedback, scoring and restart controls',()=>{
+  assert.match(html,/Quiz de validation/);
+  assert.match(html,/quizItems=\[/);
+  assert.match(html,/quizScore/);
+  assert.match(html,/quizNext/);
+  assert.match(html,/quizRestart/);
+  assert.match(html,/Quiz terminé/);
+  assert.match(html,/quizFeedback.*aria-live|id="quizFeedback" aria-live="polite"/);
+  assert.match(html,/financement overnight et ses conditions/i);
+  assert.match(html,/gap ou une exécution différente/i);
+});
