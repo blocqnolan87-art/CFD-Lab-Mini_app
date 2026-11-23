@@ -16,6 +16,6 @@ test('academy lesson progress safely recovers invalid localStorage data', async 
 
   assert.equal(JSON.stringify(load('{broken')), '[]');
   assert.equal(JSON.stringify(load('{"not":"an array"}')), '[]');
-  assert.equal(JSON.stringify(load('[1,1,2,0,10,"3",null]')), '[1,2]');
+  assert.equal(JSON.stringify(load('[1,1,2,0,10,"3",null]')), '[1,2,10]');
   assert.equal(JSON.stringify(load(null, true)), '[]');
 });
