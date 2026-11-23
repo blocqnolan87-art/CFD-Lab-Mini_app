@@ -25,6 +25,9 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
+          name: cfd-lab-site
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: cfd-lab-site
