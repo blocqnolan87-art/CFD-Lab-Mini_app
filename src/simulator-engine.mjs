@@ -84,3 +84,11 @@ export function positionSizeFromRisk(capital, riskPercent, stopPercent, leverage
     cappedByLeverage: requestedNotional > maxNotional
   };
 }
+
+/** Educational CFD cost/margin scenario; maintenance formula is illustrative only. */
+export function estimateCfdScenario({capital,direction,entry,exit,notional,leverage,spreadBps=0,commissionPercentPerSide=0,overnightPercentPerDay=0,days=0,slippageBps=0,maintenanceMarginPercent=50}) {
+ const v=[capital,entry,exit,notional,leverage,spreadBps,commissionPercentPerSide,overnightPercentPerDay,days,slippageBps,maintenanceMarginPercent];
+ if(!v.every(Number.isFinite)||capital<=0||entry<=0||exit<=0||notional<=0||leverage<1||leverage>100||![1,-1].includes(direction)||spreadBps<0||spreadBps>1000||commissionPercentPerSide<0||commissionPercentPerSide>10||overnightPercentPerDay<0||overnightPercentPerDay>10||days<0||days>365||slippageBps<0||slippageBps>1000||maintenanceMarginPercent<=0||maintenanceMarginPercent>100)throw new Error("Paramètres de scénario invalides.");
+ const grossPnl=direction*(exit-entry)/entry*notional,spreadCost=notional*spreadBps/10000,commissionCost=notional*commissionPercentPerSide/100*2,financingCost=notional*overnightPercentPerDay/100*days,slippageCost=notional*slippageBps/10000,totalCosts=spreadCost+commissionCost+financingCost+slippageCost,netPnl=grossPnl-totalCosts,initialMargin=notional/leverage,equityAfter=capital+netPnl,maintenanceRequirement=initialMargin*maintenanceMarginPercent/100;
+ return {grossPnl,spreadCost,commissionCost,financingCost,slippageCost,totalCosts,netPnl,initialMargin,equityAfter,maintenanceRequirement,marginLevelPercent:equityAfter>0?equityAfter/initialMargin*100:0,illustrativeMarginWarning:equityAfter<=maintenanceRequirement};
+}
