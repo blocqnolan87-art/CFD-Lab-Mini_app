@@ -43,7 +43,7 @@ test('academy distinguishes simplified educational estimates from provider terms
   assert.match(html, /aucun conseil financier/i);
 });
 
-import { parseOhlcCsv, createReplay, virtualPnl } from '../src/simulator-engine.mjs';
+import { parseOhlcCsv, createReplay, virtualPnl, positionSizeFromRisk } from '../src/simulator-engine.mjs';
 test('CSV OHLC importer validates rows and French semicolon decimals', () => {
   const rows=['Date;Open;High;Low;Close'];
   for(let i=0;i<20;i++)rows.push('2026-01-'+String(i+1).padStart(2,'0')+';10,0;12,0;9,0;11,0');
@@ -69,4 +69,24 @@ test('step replay reveals bars sequentially and never skips ahead', () => {
 });
 test('virtual P&L is computed from only the supplied visible close',()=>{
   assert.equal(virtualPnl(1,100,105,100),5);assert.equal(virtualPnl(-1,100,95,100),5);
+});
+
+test('risk sizing respects risk budget and leverage cap for 100 euro practice capital',()=>{
+  const sized=positionSizeFromRisk(100,1,2,5);
+  assert.equal(sized.riskBudget,1);
+  assert.equal(sized.notional,50);
+  assert.equal(sized.margin,10);
+  assert.equal(sized.estimatedStopLoss,1);
+  assert.equal(sized.cappedByLeverage,false);
+});
+test('risk sizing caps exposure when stop distance is very tight',()=>{
+  const sized=positionSizeFromRisk(100,2,0.1,3);
+  assert.equal(sized.notional,300);
+  assert.equal(sized.margin,100);
+  assert.equal(sized.cappedByLeverage,true);
+  assert.equal(sized.estimatedStopLoss,0.3);
+});
+test('risk sizing rejects invalid inputs',()=>{
+  assert.throws(()=>positionSizeFromRisk(100,0,2,5),/Paramètres de risque/);
+  assert.throws(()=>positionSizeFromRisk(100,1,2,0),/Paramètres de risque/);
 });
