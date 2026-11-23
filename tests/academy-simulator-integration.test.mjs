@@ -37,8 +37,8 @@ test('academy explains market, limit and stop order execution risks in lesson tw
 
 
 test('academy expands to practical curriculum and expectancy calculator',()=>{
-  for(const n of [13,14,15,16,17,18,19,20,21,22,23,24,25]) assert.ok(html.includes('data-lesson=\"'+n+'\"'),'missing lesson '+n);
-  for(const id of ['expectancyWinRate','expectancyAvgWin','expectancyAvgLoss','expectancyCost','expectancyCalc','expectancyResult']) assert.ok(html.includes('id=\"'+id+'\"'),'missing expectancy control '+id);
+  for(const n of [13,14,15,16,17,18,19,20,21,22,23,24,25]) assert.ok(html.includes('data-lesson="'+n+'"'),'missing lesson '+n);
+  for(const id of ['expectancyWinRate','expectancyAvgWin','expectancyAvgLoss','expectancyCost','expectancyCalc','expectancyResult']) assert.ok(html.includes('id="'+id+'"'),'missing expectancy control '+id);
   assert.ok(html.includes('look-ahead'),'backtest bias must be explained');
   assert.ok(html.includes('AMF — comprendre les CFD'),'official investor source must be linked');
   assert.ok(html.includes('hors échantillon'),'out-of-sample validation must be taught');
