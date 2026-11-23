@@ -50,5 +50,5 @@ test('CSV import rejects duplicate OHLC headers instead of choosing one silently
     const hour = String(i).padStart(2, '0');
     rows.push(`2026-01-01T${hour}:00:00Z,10,12,9,11,999`);
   }
-  assert.throws(() => parseOhlcCsv(rows.join('\\n')), /Colonne ambiguë ou dupliquée : CLOSE/);
+  assert.throws(() => parseOhlcCsv(rows.join('\n')), /Colonne ambiguë ou dupliquée : CLOSE/);
 });
