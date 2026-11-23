@@ -51,16 +51,14 @@ import { parseOhlcCsv, createReplay, virtualPnl, positionSizeFromRisk, estimateC
 test('CSV OHLC importer validates rows and French semicolon decimals', () => {
   const rows=['Date;Open;High;Low;Close'];
   for(let i=0;i<20;i++)rows.push('2026-01-'+String(i+1).padStart(2,'0')+';10,0;12,0;9,0;11,0');
-  const parsed=parseOhlcCsv(rows.join('
-'));
+  const parsed=parseOhlcCsv(rows.join('\n'));
   assert.equal(parsed.length,20);assert.equal(parsed[0].open,10);assert.equal(parsed[0].close,11);
 });
 test('CSV rejects malformed OHLC and duplicate/out-of-order dates', () => {
   const rows=['Date,Open,High,Low,Close'];
   for(let i=0;i<20;i++)rows.push('2026-01-'+String(i+1).padStart(2,'0')+',10,12,9,11');
   rows[5]='2026-01-06,10,8,9,11';
-  assert.throws(()=>parseOhlcCsv(rows.join('
-')),/Cohérence OHLC/);
+  assert.throws(()=>parseOhlcCsv(rows.join('\n')),/Cohérence OHLC/);
 });
 test('CSV rejects unparseable timestamps instead of silently skipping chronology checks', () => {
   const rows=['Date,Open,High,Low,Close'];
