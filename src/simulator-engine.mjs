@@ -60,3 +60,27 @@ export function virtualPnl(direction, entry, current, notional) {
   if(![direction,entry,current,notional].every(Number.isFinite)||entry<=0||notional<0) throw new Error("Paramètres P&L invalides.");
   return direction*(current-entry)*notional/entry;
 }
+
+/**
+ * Size a virtual CFD exposure from a risk budget and stop distance.
+ * Estimates only: gaps, slippage, provider rules and costs can increase losses.
+ */
+export function positionSizeFromRisk(capital, riskPercent, stopPercent, leverage) {
+  if (![capital, riskPercent, stopPercent, leverage].every(Number.isFinite) ||
+      capital <= 0 || riskPercent <= 0 || riskPercent > 100 ||
+      stopPercent <= 0 || leverage < 1 || leverage > 100) {
+    throw new Error("Paramètres de risque invalides.");
+  }
+  const riskBudget = capital * riskPercent / 100;
+  const requestedNotional = riskBudget / (stopPercent / 100);
+  const maxNotional = capital * leverage;
+  const notional = Math.min(requestedNotional, maxNotional);
+  return {
+    riskBudget,
+    requestedNotional,
+    notional,
+    margin: notional / leverage,
+    estimatedStopLoss: notional * stopPercent / 100,
+    cappedByLeverage: requestedNotional > maxNotional
+  };
+}
