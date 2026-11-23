@@ -32,6 +32,7 @@ Dans BotFather, configurer le bouton/menu de la Mini App avec l'URL HTTPS publi�
 ## Simulateur — état fonctionnel
 
 - Positions fictives conservées localement, ouverture/fermeture et journal des trades.
+- À la restauration, les données locales sont validées : position mal formée rejetée, entrées de journal invalides filtrées et historique limité aux 30 dernières opérations. En cas de session corrompue/version inconnue, retour à une session fictive de 100 € sans position.
 - P&L pédagogique calculé à partir du prix visible; capital initial de démonstration 100 €.
 - Import CSV OHLC : au moins 20 bougies, colonnes OHLC requises, valeurs numériques et cohérence high/low contrôlées. Si une colonne date/heure est fournie, chaque date doit être interprétable et strictement croissante, sans doublon.
 - Replay pas-à-pas : les bougies sont révélées séquentiellement; aucune bougie future n'est utilisée pour le P&L affiché.
