@@ -39,7 +39,7 @@ test('academy covers nine progressive topics and interactive margin math', () =>
   assert.match(html, /const total=document.querySelectorAll\('\[data-lesson\]'\)\.length/);
   assert.match(html, /data-lesson="9"/);
 });
-test('academy includes a direction-aware stop-loss and take-profit level exercise',()=>{assert.match(html,/data-lesson="10"/);assert.match(html,/orderDirection/);assert.match(html,/orderLevels/);assert.match(html,/stop théorique/i);assert.match(html,/ne transmettent aucun ordre/i);assert.match(html,/n<=12/);});
+test('academy includes a direction-aware stop-loss and take-profit level exercise',()=>{assert.match(html,/data-lesson="10"/);assert.match(html,/orderDirection/);assert.match(html,/orderLevels/);assert.match(html,/stop théorique/i);assert.match(html,/ne transmettent aucun ordre/i);assert.match(html,/n<=25/);});
 
 test('academy distinguishes simplified educational estimates from provider terms', () => {
   assert.match(html, /varient selon l'instrument|varient selon le fournisseur/i);
@@ -105,7 +105,7 @@ test('risk sizing rejects invalid inputs',()=>{
 
 
 test('academy risk-budget exercise is accessible and uses the validated sizing engine',()=>{assert.match(html,/Exercice : budget de risque/);assert.match(html,/id="riskCapitalAcademy"/);assert.match(html,/id="riskPercentAcademy"/);assert.match(html,/id="stopDistanceAcademy"/);assert.match(html,/id="riskLeverageAcademy"/);assert.match(html,/id="riskExercise"/);assert.match(html,/id="riskExerciseResult" aria-live="polite"/);assert.match(html,/positionSizeFromRisk\(/);assert.match(html,/perte au stop estimée/);});
-test('academy quiz has seven staged questions, feedback, scoring and restart controls',()=>{
+test('academy quiz has fifteen staged questions, feedback, scoring and restart controls',()=>{
   assert.match(html,/Quiz de validation/);
   assert.match(html,/quizItems=\[/);
   assert.match(html,/quizScore/);
@@ -152,5 +152,6 @@ test('inline app module parses and quiz questions are separated correctly', () =
   assert.doesNotThrow(() => new Function(source), 'inline module must be syntactically valid JavaScript');
   const quiz = source.match(/const quizItems=\[([\s\S]*?)\];/);
   assert.ok(quiz, 'quiz question list should exist');
-  assert.equal((quiz[1].match(/\{q:/g) || []).length, 7, 'all seven questions should be available');
+  assert.equal((quiz[1].match(/\{q:/g) || []).length, 15, 'all fifteen questions should be available');
 });
+\ntest('academy teaches expectancy and trading validation rather than promising profit',()=>{assert.match(html,/espérance estimée par trade/i);assert.match(html,/ne garantit pas leur avenir/i);assert.match(html,/ne constitue.*preuve de rentabilité/i);assert.match(html,/look-ahead/i);});\n
