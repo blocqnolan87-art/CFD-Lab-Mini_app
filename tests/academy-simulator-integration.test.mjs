@@ -18,11 +18,19 @@ test('academy risk exercise controls have unique IDs, separate from simulator co
 });
 
 
-test('academy includes accessible gross P&L exercise and eleventh lesson progress range', () => {
+test('academy includes accessible gross P&L exercise and twelfth lesson progress range', () => {
   for (const id of ['pnlDirectionAcademy','pnlNotionalAcademy','pnlMoveAcademy','pnlExerciseAcademy','pnlResultAcademy']) {
     assert.ok(html.includes('id="' + id + '"'), 'missing P&L exercise control: ' + id);
   }
-  assert.ok(html.includes('n<=11)'), 'lesson storage accepts the current eleventh lesson');
+  assert.ok(html.includes('n<=12)'), 'lesson storage accepts the current eleventh lesson');
   assert.ok(html.includes('P&L brut illustratif'), 'exercise explains gross result');
   assert.ok(html.includes('aria-live="polite"'), 'result feedback is accessible');
+});
+
+
+test('academy explains market, limit and stop order execution risks in lesson twelve', () => {
+  assert.ok(html.includes('data-lesson="12"'), 'lesson twelve must be tracked in academy progress');
+  assert.ok(html.includes('Ordre au marché, limite et stop'), 'lesson title must be present');
+  assert.ok(html.includes('peut rester non exécuté'), 'limit-order non-execution risk must be explained');
+  assert.ok(html.includes('Le déclenchement n’assure ni l’exécution ni le prix'), 'stop execution risk must be explicit');
 });
