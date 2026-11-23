@@ -22,7 +22,7 @@ test('academy includes accessible gross P&L exercise and twelfth lesson progress
   for (const id of ['pnlDirectionAcademy','pnlNotionalAcademy','pnlMoveAcademy','pnlExerciseAcademy','pnlResultAcademy']) {
     assert.ok(html.includes('id="' + id + '"'), 'missing P&L exercise control: ' + id);
   }
-  assert.ok(html.includes('n<=25)'), 'lesson storage accepts the current eleventh lesson');
+  assert.ok(html.includes('n<=25)'), 'lesson storage accepts the current twenty-fifth lesson');
   assert.ok(html.includes('Calculer le P&amp;L brut'), 'exercise explains gross result');
   assert.ok(html.includes('aria-live="polite"'), 'result feedback is accessible');
 });
@@ -34,4 +34,12 @@ test('academy explains market, limit and stop order execution risks in lesson tw
   assert.ok(html.includes('peut rester non exécuté'), 'limit-order non-execution risk must be explained');
   assert.ok(html.includes("Le déclenchement n'assure ni l'exécution ni le prix"), 'stop execution risk must be explicit');
 });
-\n\ntest('academy expands to practical curriculum and expectancy calculator',()=>{\n  for(const n of [13,14,15,16,17,18,19,20,21,22,23,24,25]) assert.ok(html.includes('data-lesson=\"'+n+'\"'),'missing lesson '+n);\n  for(const id of ['expectancyWinRate','expectancyAvgWin','expectancyAvgLoss','expectancyCost','expectancyCalc','expectancyResult']) assert.ok(html.includes('id=\"'+id+'\"'),'missing expectancy control '+id);\n  assert.ok(html.includes('look-ahead'),'backtest bias must be explained');\n  assert.ok(html.includes('AMF — comprendre les CFD'),'official investor source must be linked');\n  assert.ok(html.includes('hors échantillon'),'out-of-sample validation must be taught');\n});\n
+
+
+test('academy expands to practical curriculum and expectancy calculator',()=>{
+  for(const n of [13,14,15,16,17,18,19,20,21,22,23,24,25]) assert.ok(html.includes('data-lesson=\"'+n+'\"'),'missing lesson '+n);
+  for(const id of ['expectancyWinRate','expectancyAvgWin','expectancyAvgLoss','expectancyCost','expectancyCalc','expectancyResult']) assert.ok(html.includes('id=\"'+id+'\"'),'missing expectancy control '+id);
+  assert.ok(html.includes('look-ahead'),'backtest bias must be explained');
+  assert.ok(html.includes('AMF — comprendre les CFD'),'official investor source must be linked');
+  assert.ok(html.includes('hors échantillon'),'out-of-sample validation must be taught');
+});
