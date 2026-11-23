@@ -2,6 +2,25 @@
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#08111f"><meta name="description" content="CFD Lab : académie et simulateur pédagogique, sans argent réel."><link rel="manifest" href="./manifest.webmanifest"><title>CFD Lab · Apprendre sans risque</title>
 <style>
 :root{color-scheme:dark;--bg:#08111f;--panel:#111f31;--muted:#9eb0c8;--mint:#38d6a4;--line:#26364b}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#132840,var(--bg) 55%);color:#f3f7ff;font:16px system-ui,-apple-system,sans-serif;padding:env(safe-area-inset-top) 16px env(safe-area-inset-bottom);max-width:760px;margin:auto}header{padding:22px 2px 14px;display:flex;justify-content:space-between;align-items:center}h1{font-size:26px;margin:0}small,.muted{color:var(--muted)}.tag{border:1px solid #285a51;color:var(--mint);border-radius:30px;padding:6px 10px;font-size:12px}nav{display:flex;gap:8px;overflow:auto;margin:10px 0 16px}button{font:inherit;border:1px solid var(--line);background:#18283b;color:#f3f7ff;border-radius:14px;padding:12px 14px;cursor:pointer}nav button[aria-selected=true],.primary{background:var(--mint);color:#05251c;border-color:var(--mint);font-weight:700}.card{background:linear-gradient(145deg,#14253a,#0e1a2a);border:1px solid var(--line);border-radius:22px;padding:18px;margin:12px 0}.kpi{font-size:30px;font-weight:750}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}h2{font-size:20px;margin:0 0 12px}h3{margin:12px 0 5px}p{line-height:1.55}.pill{display:inline-block;padding:4px 9px;background:#20344a;border-radius:20px;color:var(--muted);font-size:12px}canvas{width:100%;height:180px;background:#0a1726;border-radius:12px}label{display:block;color:var(--muted);margin:12px 0 6px}input,select{width:100%;padding:12px;background:#071321;color:white;border:1px solid var(--line);border-radius:12px}button:focus-visible,input:focus-visible{outline:3px solid var(--mint)}.row{display:flex;gap:8px;flex-wrap:wrap}.row button{flex:1}.notice{border-left:3px solid #e8b65a;padding:8px 12px;color:#f2d8a3;font-size:13px}.hidden{display:none}footer{text-align:center;color:var(--muted);padding:20px 0;font-size:12px}
+
+/* Mobile ergonomics for Telegram WebView and iPhone Safari */
+@media (max-width: 480px) {
+  body { padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+  header { gap: 10px; align-items: flex-start; }
+  h1 { font-size: 23px; }
+  nav { scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+  nav button { flex: 0 0 auto; scroll-snap-align: start; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .grid > .full { grid-column: auto; }
+  .row { gap: 8px; }
+  .row button { flex-basis: 100%; }
+  .card { padding: 15px; border-radius: 18px; }
+  canvas { height: 165px; touch-action: pan-y; }
+}
+/* Prevent iOS input zoom and keep controls comfortably tappable. */
+input, select, button { font-size: 16px; }
+button { min-height: 44px; touch-action: manipulation; }
+input, select { min-height: 44px; }
 </style></head><body>
 <header><div><h1>CFD <span style="color:var(--mint)">LAB</span></h1><small>Comprendre · Simuler · Progresser</small></div><span class="tag">MODE ÉDUCATIF</span></header>
 <nav aria-label="Modules"><button data-tab="home" aria-selected="true">Accueil</button><button data-tab="academy" aria-selected="false">Académie</button><button data-tab="sim" aria-selected="false">Simulateur</button><button data-tab="quiz" aria-selected="false">Quiz</button></nav>
