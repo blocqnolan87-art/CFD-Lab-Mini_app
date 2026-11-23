@@ -139,7 +139,7 @@ export function estimateCfdScenario({capital,direction,entry,exit,notional,lever
 
 /** Validate persisted browser-session data before using it in the simulator UI. */
 export function sanitizeVirtualSession(value) {
-  if (!value || typeof value !== "object" || value.v !== 1 || !Number.isFinite(value.balance)) {
+  if (!value || typeof value !== "object" || value.v !== 1 || !Number.isFinite(value.balance) || value.balance < 0 || value.balance > 1_000_000) {
     return { v: 1, balance: 100, position: null, history: [] };
   }
   const p = value.position;
