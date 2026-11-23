@@ -134,11 +134,11 @@ test('persisted virtual session falls back safely for corrupt storage and limits
 });
 
 test('inline app module parses and quiz questions are separated correctly', () => {
-  const match = html.match(/<script type="module">([\\s\\S]*?)<\\/script>/);
+  const match = html.match(/<script type="module">([\s\S]*?)<\\/script>/);
   assert.ok(match, 'application module should exist');
-  const source = match[1].replace(/^import .*;\\s*$/m, '');
+  const source = match[1].replace(/^import .*;\s*$/m, '');
   assert.doesNotThrow(() => new Function(source), 'inline module must be syntactically valid JavaScript');
-  const quiz = source.match(/const quizItems=\\[([\\s\\S]*?)\\];/);
+  const quiz = source.match(/const quizItems=\[([\s\S]*?)\];/);
   assert.ok(quiz, 'quiz question list should exist');
-  assert.equal((quiz[1].match(/\\{q:/g) || []).length, 7, 'all seven questions should be available');
+  assert.equal((quiz[1].match(/\{q:/g) || []).length, 7, 'all seven questions should be available');
 });
