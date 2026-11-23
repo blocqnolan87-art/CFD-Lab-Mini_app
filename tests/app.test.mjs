@@ -51,14 +51,16 @@ import { parseOhlcCsv, createReplay, virtualPnl, positionSizeFromRisk, estimateC
 test('CSV OHLC importer validates rows and French semicolon decimals', () => {
   const rows=['Date;Open;High;Low;Close'];
   for(let i=0;i<20;i++)rows.push('2026-01-'+String(i+1).padStart(2,'0')+';10,0;12,0;9,0;11,0');
-  const parsed=parseOhlcCsv(rows.join('\n'));
+  const parsed=parseOhlcCsv(rows.join('
+'));
   assert.equal(parsed.length,20);assert.equal(parsed[0].open,10);assert.equal(parsed[0].close,11);
 });
 test('CSV rejects malformed OHLC and duplicate/out-of-order dates', () => {
   const rows=['Date,Open,High,Low,Close'];
   for(let i=0;i<20;i++)rows.push('2026-01-'+String(i+1).padStart(2,'0')+',10,12,9,11');
   rows[5]='2026-01-06,10,8,9,11';
-  assert.throws(()=>parseOhlcCsv(rows.join('\n')),/Cohérence OHLC/);
+  assert.throws(()=>parseOhlcCsv(rows.join('
+')),/Cohérence OHLC/);
 });
 test('CSV rejects unparseable timestamps instead of silently skipping chronology checks', () => {
   const rows=['Date,Open,High,Low,Close'];
@@ -154,4 +156,5 @@ test('inline app module parses and quiz questions are separated correctly', () =
   assert.ok(quiz, 'quiz question list should exist');
   assert.equal((quiz[1].match(/\{q:/g) || []).length, 15, 'all fifteen questions should be available');
 });
-\ntest('academy teaches expectancy and trading validation rather than promising profit',()=>{assert.match(html,/espérance estimée par trade/i);assert.match(html,/ne garantit pas leur avenir/i);assert.match(html,/ne constitue.*preuve de rentabilité/i);assert.match(html,/look-ahead/i);});\n
+
+test('academy teaches expectancy and trading validation rather than promising profit',()=>{assert.match(html,/espérance estimée par trade/i);assert.match(html,/ne garantit pas leur avenir/i);assert.match(html,/ne constitue.*preuve de rentabilité/i);assert.match(html,/look-ahead/i);});
