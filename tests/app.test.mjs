@@ -103,7 +103,7 @@ test('risk sizing rejects invalid inputs',()=>{
 
 
 test('academy risk-budget exercise is accessible and uses the validated sizing engine',()=>{assert.match(html,/Exercice : budget de risque/);assert.match(html,/id="riskCapitalAcademy"/);assert.match(html,/id="riskPercentAcademy"/);assert.match(html,/id="stopDistanceAcademy"/);assert.match(html,/id="riskLeverageAcademy"/);assert.match(html,/id="riskExercise"/);assert.match(html,/id="riskExerciseResult" aria-live="polite"/);assert.match(html,/positionSizeFromRisk\(/);assert.match(html,/perte au stop estimée/);});
-test('academy quiz has five staged questions, feedback, scoring and restart controls',()=>{
+test('academy quiz has seven staged questions, feedback, scoring and restart controls',()=>{
   assert.match(html,/Quiz de validation/);
   assert.match(html,/quizItems=\[/);
   assert.match(html,/quizScore/);
@@ -113,6 +113,9 @@ test('academy quiz has five staged questions, feedback, scoring and restart cont
   assert.match(html,/quizFeedback.*aria-live|id="quizFeedback" aria-live="polite"/);
   assert.match(html,/financement overnight et ses conditions/i);
   assert.match(html,/gap ou une exécution différente/i);
+  assert.match(html,/Quels coûts peuvent affecter le résultat net/);
+  assert.match(html,/Le financement overnight est-il toujours débité/);
+  assert.match(html,/Le financement peut être débité ou crédité/);
 });
 
 test('scenario includes estimated trading costs and margin indicator',()=>{const x=estimateCfdScenario({capital:100,direction:1,entry:100,exit:102,notional:500,leverage:5,spreadBps:10,commissionPercentPerSide:.1,overnightPercentPerDay:.02,days:2,slippageBps:5});assert.equal(x.grossPnl,10);assert.equal(x.totalCosts,1.95);assert.equal(x.netPnl,8.05);assert.equal(x.initialMargin,100);assert.equal(x.illustrativeMarginWarning,false);});
