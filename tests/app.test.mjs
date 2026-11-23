@@ -115,3 +115,15 @@ test('academy quiz has five staged questions, feedback, scoring and restart cont
 
 test('scenario includes estimated trading costs and margin indicator',()=>{const x=estimateCfdScenario({capital:100,direction:1,entry:100,exit:102,notional:500,leverage:5,spreadBps:10,commissionPercentPerSide:.1,overnightPercentPerDay:.02,days:2,slippageBps:5});assert.equal(x.grossPnl,10);assert.equal(x.totalCosts,1.95);assert.equal(x.netPnl,8.05);assert.equal(x.initialMargin,100);assert.equal(x.illustrativeMarginWarning,false);});
 test('scenario signals maintenance threshold and rejects invalid direction',()=>{const x=estimateCfdScenario({capital:100,direction:-1,entry:100,exit:130,notional:500,leverage:5});assert.equal(x.illustrativeMarginWarning,true);assert.throws(()=>estimateCfdScenario({capital:100,direction:0,entry:100,exit:101,notional:100,leverage:2}),/Paramètres de scénario/);});
+
+import { sanitizeVirtualSession } from '../src/simulator-engine.mjs';
+test('persisted virtual session rejects malformed positions and filters invalid journal rows',()=>{
+ const clean=sanitizeVirtualSession({v:1,balance:96.5,position:{dir:7,size:20,entry:100,openedAt:3},history:[{side:'LONG',entry:100,exit:105,pnl:1,fee:.1,step:4},{side:'INVALID',entry:100,exit:101,pnl:1,fee:0,step:5}]});
+ assert.equal(clean.balance,96.5);assert.equal(clean.position,null);assert.equal(clean.history.length,1);assert.equal(clean.history[0].side,'LONG');
+});
+test('persisted virtual session falls back safely for corrupt storage and limits journal size',()=>{
+ assert.deepEqual(sanitizeVirtualSession({v:9,balance:NaN}),{v:1,balance:100,position:null,history:[]});
+ const rows=Array.from({length:35},(_,i)=>({side:'SHORT',entry:100,exit:99,pnl:1,fee:0,step:i}));
+ const clean=sanitizeVirtualSession({v:1,balance:100,position:{dir:-1,size:5,entry:100,openedAt:0},history:rows});
+ assert.equal(clean.position.dir,-1);assert.equal(clean.history.length,30);assert.equal(clean.history[0].step,5);
+});
