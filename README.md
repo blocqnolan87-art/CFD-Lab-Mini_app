@@ -8,6 +8,13 @@ Application web mobile-first en français : accueil, académie débutant (12 le�
 - Tests automatiques : Node.js 20+ puis `npm test`.
 - Hébergement prévu : GitHub Pages via `.github/workflows/deploy-pages.yml` ou Netlify via `netlify.toml`.
 
+## Confort mobile Telegram/iPhone
+
+- La mini-app respecte les zones de sécurité iOS et réduit les grilles sur les petits écrans.
+- Les champs utilisent une taille de texte de 16 px pour éviter le zoom automatique à la sélection sur iPhone; les commandes ont une zone tactile minimale de 44 px.
+- La barre des modules reste défilable horizontalement dans le WebView Telegram.
+- Contrôle automatisé : `tests/mobile-ergonomics.test.mjs`.
+
 ## Publication GitHub Pages
 
 1. Dans GitHub, ouvrir **Settings → Pages**.
