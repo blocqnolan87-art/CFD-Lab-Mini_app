@@ -31,7 +31,7 @@ test('academy covers seven progressive topics and interactive margin math', () =
   assert.match(html, /Marge et levier/);
   assert.match(html, /Ordres et gaps/);
   assert.match(html, /Coûts de transaction/);
-  assert.match(html, /Financement overnight/);
+  assert.match(html, /Financement overnight/);\n  assert.match(html, /Appel de marge et clôture forcée/);
   assert.match(html, /marginExercise/);
   assert.match(html, /e\/l/);
   assert.match(html, /aria-live="polite"/);
