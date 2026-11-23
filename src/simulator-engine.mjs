@@ -92,3 +92,22 @@ export function estimateCfdScenario({capital,direction,entry,exit,notional,lever
  const grossPnl=direction*(exit-entry)/entry*notional,spreadCost=notional*spreadBps/10000,commissionCost=notional*commissionPercentPerSide/100*2,financingCost=notional*overnightPercentPerDay/100*days,slippageCost=notional*slippageBps/10000,totalCosts=spreadCost+commissionCost+financingCost+slippageCost,netPnl=grossPnl-totalCosts,initialMargin=notional/leverage,equityAfter=capital+netPnl,maintenanceRequirement=initialMargin*maintenanceMarginPercent/100;
  return {grossPnl,spreadCost,commissionCost,financingCost,slippageCost,totalCosts,netPnl,initialMargin,equityAfter,maintenanceRequirement,marginLevelPercent:equityAfter>0?equityAfter/initialMargin*100:0,illustrativeMarginWarning:equityAfter<=maintenanceRequirement};
 }
+
+/** Validate persisted browser-session data before using it in the simulator UI. */
+export function sanitizeVirtualSession(value) {
+  if (!value || typeof value !== "object" || value.v !== 1 || !Number.isFinite(value.balance)) {
+    return { v: 1, balance: 100, position: null, history: [] };
+  }
+  const p = value.position;
+  const position = p && [1, -1].includes(p.dir) &&
+    [p.size, p.entry, p.openedAt].every(Number.isFinite) &&
+    p.size > 0 && p.entry > 0 && p.openedAt >= 0
+    ? { dir: p.dir, size: p.size, entry: p.entry, openedAt: p.openedAt }
+    : null;
+  const history = Array.isArray(value.history) ? value.history.filter(t =>
+    t && ["LONG", "SHORT"].includes(t.side) &&
+    [t.entry, t.exit, t.pnl, t.fee, t.step].every(Number.isFinite) &&
+    t.entry > 0 && t.exit > 0 && t.fee >= 0 && t.step >= 0
+  ).slice(-30).map(t => ({ side: t.side, entry: t.entry, exit: t.exit, pnl: t.pnl, fee: t.fee, step: t.step })) : [];
+  return { v: 1, balance: value.balance, position, history };
+}
