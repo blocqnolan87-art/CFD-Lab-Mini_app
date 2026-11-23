@@ -30,7 +30,11 @@ export function parseOhlcCsv(text) {
   const first=lines[0], delimiter=(first.match(/;/g)||[]).length>(first.match(/,/g)||[]).length?";":",";
   const headers=splitCsvLine(first,delimiter).map(x=>x.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim());
   const indexes={};
-  for(const key of Object.keys(aliases)){indexes[key]=headers.findIndex(h=>aliases[key].some(a=>h===a.normalize("NFD").replace(/[\u0300-\u036f]/g,"")||h.startsWith(a+" ")))}
+  for(const key of Object.keys(aliases)){
+    const matches=headers.map((h,i)=>({h,i})).filter(({h})=>aliases[key].some(a=>h===a.normalize("NFD").replace(/[\\u0300-\\u036f]/g,"")||h.startsWith(a+" ")));
+    if(matches.length>1) throw new Error("Colonne ambiguë ou dupliquée : "+key.toUpperCase()+".");
+    indexes[key]=matches[0]?.i??-1;
+  }
   for(const key of ["open","high","low","close"]) if(indexes[key]<0) throw new Error("Colonne obligatoire absente : "+key.toUpperCase()+".");
   const decimalComma=delimiter===";";
   const bars=lines.slice(1).map((line,i)=>{
