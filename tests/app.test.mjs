@@ -43,7 +43,7 @@ test('academy distinguishes simplified educational estimates from provider terms
   assert.match(html, /aucun conseil financier/i);
 });
 
-import { parseOhlcCsv, createReplay, virtualPnl, positionSizeFromRisk } from '../src/simulator-engine.mjs';
+import { parseOhlcCsv, createReplay, virtualPnl, positionSizeFromRisk, estimateCfdScenario } from '../src/simulator-engine.mjs';
 test('CSV OHLC importer validates rows and French semicolon decimals', () => {
   const rows=['Date;Open;High;Low;Close'];
   for(let i=0;i<20;i++)rows.push('2026-01-'+String(i+1).padStart(2,'0')+';10,0;12,0;9,0;11,0');
@@ -103,3 +103,6 @@ test('academy quiz has five staged questions, feedback, scoring and restart cont
   assert.match(html,/financement overnight et ses conditions/i);
   assert.match(html,/gap ou une exécution différente/i);
 });
+
+test('scenario includes estimated trading costs and margin indicator',()=>{const x=estimateCfdScenario({capital:100,direction:1,entry:100,exit:102,notional:500,leverage:5,spreadBps:10,commissionPercentPerSide:.1,overnightPercentPerDay:.02,days:2,slippageBps:5});assert.equal(x.grossPnl,10);assert.equal(x.totalCosts,1.95);assert.equal(x.netPnl,8.05);assert.equal(x.initialMargin,100);assert.equal(x.illustrativeMarginWarning,false);});
+test('scenario signals maintenance threshold and rejects invalid direction',()=>{const x=estimateCfdScenario({capital:100,direction:-1,entry:100,exit:130,notional:500,leverage:5});assert.equal(x.illustrativeMarginWarning,true);assert.throws(()=>estimateCfdScenario({capital:100,direction:0,entry:100,exit:101,notional:100,leverage:2}),/Paramètres de scénario/);});
