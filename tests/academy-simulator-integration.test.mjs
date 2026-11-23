@@ -23,7 +23,7 @@ test('academy includes accessible gross P&L exercise and twelfth lesson progress
     assert.ok(html.includes('id="' + id + '"'), 'missing P&L exercise control: ' + id);
   }
   assert.ok(html.includes('n<=12)'), 'lesson storage accepts the current eleventh lesson');
-  assert.ok(html.includes('P&L brut illustratif'), 'exercise explains gross result');
+  assert.ok(html.includes('Calculer le P&amp;L brut'), 'exercise explains gross result');
   assert.ok(html.includes('aria-live="polite"'), 'result feedback is accessible');
 });
 
