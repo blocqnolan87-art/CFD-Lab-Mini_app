@@ -10,8 +10,8 @@ function splitCsvLine(line, delimiter) {
   const out=[]; let value="", quoted=false;
   for(let i=0;i<line.length;i++){
     const ch=line[i];
-    if(ch==='"'"'"'"'"' && quoted && line[i+1]==='"'"'"'){value+='"'"'"'"'"';i++}
-    else if(ch==='"'"'"'"'"') quoted=!quoted;
+    if(ch.charCodeAt(0)===34 && quoted && line[i+1]?.charCodeAt(0)===34){value+=String.fromCharCode(34);i++}
+    else if(ch.charCodeAt(0)===34) quoted=!quoted;
     else if(ch===delimiter && !quoted){out.push(value.trim());value=""}
     else value+=ch;
   }
