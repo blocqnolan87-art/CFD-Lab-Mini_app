@@ -68,8 +68,16 @@ test('step replay reveals bars sequentially and never skips ahead', () => {
   const replay=createReplay(bars);assert.equal(replay.current().close,11);assert.equal(replay.position(),1);
   assert.equal(replay.next().close,12);assert.equal(replay.position(),2);assert.equal(replay.hasNext(),true);
 });
-test('virtual P&L is computed from only the supplied visible close',()=>{
+test('virtual P&L is computed from the visible price and rejects invalid directions or values',()=>{
   assert.equal(virtualPnl(1,100,105,100),5);assert.equal(virtualPnl(-1,100,95,100),5);
+  assert.throws(()=>virtualPnl(0,100,105,100),/Paramètres P&L/);
+  assert.throws(()=>virtualPnl(1,100,105,0),/Paramètres P&L/);
+  assert.throws(()=>virtualPnl(1,100,0,100),/Paramètres P&L/);
+});
+test('replay ends exactly at the final candle and cannot advance into future data',()=>{
+  const replay=createReplay([{close:1},{close:2},{close:3}]);
+  assert.equal(replay.next().close,2);assert.equal(replay.next().close,3);
+  assert.equal(replay.hasNext(),false);assert.equal(replay.next(),null);assert.equal(replay.position(),3);
 });
 
 test('risk sizing respects risk budget and leverage cap for 100 euro practice capital',()=>{
