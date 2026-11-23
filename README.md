@@ -1,6 +1,6 @@
 # CFD Lab — Mini-app éducative Telegram
 
-Application web mobile-first en français : accueil, académie débutant, simulateur virtuel à bougies synthétiques, quiz et progression conservée sur l'appareil.
+Application web mobile-first en français : accueil, académie débutant (12 leçons), simulateur virtuel à bougies synthétiques, quiz et progression conservée sur l'appareil.
 
 ## Lancer et tester
 
