@@ -10,12 +10,12 @@ test('academy lesson progress safely recovers invalid localStorage data', async 
   const source = match[0].replace(/\nlet learned=loadLearnedLessons\(\);$/, '');
   const load = (raw, throws = false) => {
     const context = { localStorage: { getItem() { if (throws) throw new Error('storage blocked'); return raw; } } };
-    vm.runInNewContext(source + '\\nthis.loadLearnedLessons=loadLearnedLessons;', context);
+    vm.runInNewContext(source + '\nthis.loadLearnedLessons=loadLearnedLessons;', context);
     return context.loadLearnedLessons();
   };
 
-  assert.deepEqual(load('{broken'), []);
-  assert.deepEqual(load('{"not":"an array"}'), []);
-  assert.deepEqual(load('[1,1,2,0,10,"3",null]'), [1,2]);
-  assert.deepEqual(load(null, true), []);
+  assert.equal(JSON.stringify(load('{broken')), '[]');
+  assert.equal(JSON.stringify(load('{"not":"an array"}')), '[]');
+  assert.equal(JSON.stringify(load('[1,1,2,0,10,"3",null]')), '[1,2]');
+  assert.equal(JSON.stringify(load(null, true)), '[]');
 });
