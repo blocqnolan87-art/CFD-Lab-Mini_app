@@ -36,7 +36,7 @@ test('academy covers eight progressive topics and interactive margin math', () =
   assert.match(html, /marginExercise/);
   assert.match(html, /e\/l/);
   assert.match(html, /aria-live="polite"/);
-  assert.match(html, /learned.length\/8/);
+  assert.match(html, /const total=document.querySelectorAll\('\[data-lesson\]'\)\.length/);\n  assert.match(html, /data-lesson="9"/);
 });
 test('academy distinguishes simplified educational estimates from provider terms', () => {
   assert.match(html, /varient selon l'instrument|varient selon le fournisseur/i);
