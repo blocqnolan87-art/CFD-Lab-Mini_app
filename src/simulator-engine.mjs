@@ -52,9 +52,45 @@ export function parseOhlcCsv(text) {
   return bars;
 }
 export function createReplay(bars) {
-  if(!Array.isArray(bars)||bars.length<2) throw new Error("Replay nécessite au moins 2 bougies.");
-  let index=0;
-  return {current:()=>bars[index], hasNext:()=>index<bars.length-1, next:()=>{if(index>=bars.length-1)return null;index+=1;return bars[index]}, position:()=>index+1,total:()=>bars.length};
+  if (!Array.isArray(bars) || bars.length < 2) {
+    throw new Error("Replay nécessite au moins 2 bougies.");
+  }
+  // Take an immutable snapshot so caller mutations cannot alter future replay bars.
+  const snapshot = bars.map((source, i) => {
+    const bar = source && typeof source === "object" ? { ...source } : null;
+    if (!bar || !["open", "high", "low", "close"].every(k => Number.isFinite(bar[k]) && bar[k] > 0)) {
+      throw new Error("Bougie OHLC invalide à l'index " + i + ".");
+    }
+    if (bar.high < Math.max(bar.open, bar.close, bar.low) ||
+        bar.low > Math.min(bar.open, bar.close, bar.high)) {
+      throw new Error("Cohérence OHLC invalide à l'index " + i + ".");
+    }
+    return bar;
+  });
+  const hasTime = snapshot.some(bar => bar.time !== undefined);
+  if (hasTime) {
+    const timestamps = snapshot.map((bar, i) => {
+      const stamp = typeof bar.time === "number" ? bar.time : Date.parse(bar.time);
+      if (!Number.isFinite(stamp)) throw new Error("Date/heure invalide à l'index " + i + ".");
+      return stamp;
+    });
+    if (timestamps.some((stamp, i) => i > 0 && stamp <= timestamps[i - 1])) {
+      throw new Error("Les dates du replay doivent être strictement croissantes.");
+    }
+  }
+  let index = 0;
+  const copyCurrent = () => ({ ...snapshot[index] });
+  return {
+    current: copyCurrent,
+    hasNext: () => index < snapshot.length - 1,
+    next: () => {
+      if (index >= snapshot.length - 1) return null;
+      index += 1;
+      return copyCurrent();
+    },
+    position: () => index + 1,
+    total: () => snapshot.length
+  };
 }
 export function virtualPnl(direction, entry, current, notional) {
   if(![direction,entry,current,notional].every(Number.isFinite)||![1,-1].includes(direction)||entry<=0||current<=0||notional<=0) throw new Error("Paramètres P&L invalides.");
