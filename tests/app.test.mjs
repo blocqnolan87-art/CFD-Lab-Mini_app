@@ -39,7 +39,7 @@ test('academy covers nine progressive topics and interactive margin math', () =>
   assert.match(html, /const total=document.querySelectorAll\('\[data-lesson\]'\)\.length/);
   assert.match(html, /data-lesson="9"/);
 });
-test('academy includes a direction-aware stop-loss and take-profit level exercise',()=>{assert.match(html,/data-lesson="10"/);assert.match(html,/orderDirection/);assert.match(html,/orderLevels/);assert.match(html,/stop théorique/i);assert.match(html,/ne transmettent aucun ordre/i);assert.match(html,/n<=10/);});
+test('academy includes a direction-aware stop-loss and take-profit level exercise',()=>{assert.match(html,/data-lesson="10"/);assert.match(html,/orderDirection/);assert.match(html,/orderLevels/);assert.match(html,/stop théorique/i);assert.match(html,/ne transmettent aucun ordre/i);assert.match(html,/n<=12/);});
 
 test('academy distinguishes simplified educational estimates from provider terms', () => {
   assert.match(html, /varient selon l'instrument|varient selon le fournisseur/i);
