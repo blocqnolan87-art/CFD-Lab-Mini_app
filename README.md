@@ -36,6 +36,8 @@ Dans BotFather, configurer le bouton/menu de la Mini App avec l'URL HTTPS publi�
 - P&L pédagogique calculé à partir du prix visible; capital initial de démonstration 100 €.
 - Import CSV OHLC : au moins 20 bougies, colonnes OHLC requises, valeurs numériques et cohérence high/low contrôlées. Si une colonne date/heure est fournie, chaque date doit être interprétable et strictement croissante, sans doublon.
 - Replay pas-à-pas : les bougies sont révélées séquentiellement; aucune bougie future n'est utilisée pour le P&L affiché.
+
+- Séparation des modes : l’import/replay est refusé tant qu’une position virtuelle est ouverte; les boutons d’ouverture/clôture sont suspendus pendant le replay. Un second CSV ne peut pas remplacer un replay actif. Quitter le replay restaure le graphique synthétique précédent. Les bougies importées ne sont pas conservées après rechargement de la page; l’historique est destiné à une session de démonstration.
 - Tests automatiques couvrant l'import, les erreurs OHLC, les dates invalides, le replay et le P&L.
 
 ## Limites à garder en tête
