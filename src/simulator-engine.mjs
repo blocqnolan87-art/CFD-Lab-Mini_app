@@ -58,12 +58,20 @@ export function createReplay(bars) {
   // Take an immutable snapshot so caller mutations cannot alter future replay bars.
   const snapshot = bars.map((source, i) => {
     const bar = source && typeof source === "object" ? { ...source } : null;
-    if (!bar || !["open", "high", "low", "close"].every(k => Number.isFinite(bar[k]) && bar[k] > 0)) {
-      throw new Error("Bougie OHLC invalide à l'index " + i + ".");
+    if (!bar || !Number.isFinite(bar.close) || bar.close <= 0) {
+      throw new Error("Prix de clôture invalide à l'index " + i + ".");
     }
-    if (bar.high < Math.max(bar.open, bar.close, bar.low) ||
-        bar.low > Math.min(bar.open, bar.close, bar.high)) {
-      throw new Error("Cohérence OHLC invalide à l'index " + i + ".");
+    // The public replay API also accepts close-only synthetic candles used by
+    // the lesson demo. Imported CSV candles always carry the complete OHLC set.
+    const hasAnyOhlc = ["open", "high", "low"].some(k => bar[k] !== undefined);
+    if (hasAnyOhlc) {
+      if (!["open", "high", "low", "close"].every(k => Number.isFinite(bar[k]) && bar[k] > 0)) {
+        throw new Error("Bougie OHLC invalide à l'index " + i + ".");
+      }
+      if (bar.high < Math.max(bar.open, bar.close, bar.low) ||
+          bar.low > Math.min(bar.open, bar.close, bar.high)) {
+        throw new Error("Cohérence OHLC invalide à l'index " + i + ".");
+      }
     }
     return bar;
   });
