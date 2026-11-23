@@ -26,7 +26,7 @@ test('virtual positions can persist and be closed into a trade journal', () => {
   assert.match(html, /Clôturer la position/);
 });
 
-test('academy covers eight progressive topics and interactive margin math', () => {
+test('academy covers nine progressive topics and interactive margin math', () => {
   assert.match(html, /Qu'est-ce qu'un CFD/);
   assert.match(html, /Marge et levier/);
   assert.match(html, /Ordres et gaps/);
@@ -36,7 +36,8 @@ test('academy covers eight progressive topics and interactive margin math', () =
   assert.match(html, /marginExercise/);
   assert.match(html, /e\/l/);
   assert.match(html, /aria-live="polite"/);
-  assert.match(html, /const total=document.querySelectorAll\('\[data-lesson\]'\)\.length/);\n  assert.match(html, /data-lesson="9"/);
+  assert.match(html, /const total=document.querySelectorAll\('\[data-lesson\]'\)\.length/);
+  assert.match(html, /data-lesson="9"/);
 });
 test('academy distinguishes simplified educational estimates from provider terms', () => {
   assert.match(html, /varient selon l'instrument|varient selon le fournisseur/i);
