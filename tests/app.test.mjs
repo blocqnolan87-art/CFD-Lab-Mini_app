@@ -119,6 +119,16 @@ test('academy quiz has seven staged questions, feedback, scoring and restart con
 });
 
 test('scenario includes estimated trading costs and margin indicator',()=>{const x=estimateCfdScenario({capital:100,direction:1,entry:100,exit:102,notional:500,leverage:5,spreadBps:10,commissionPercentPerSide:.1,overnightPercentPerDay:.02,days:2,slippageBps:5});assert.equal(x.grossPnl,10);assert.equal(x.totalCosts,1.95);assert.equal(x.netPnl,8.05);assert.equal(x.initialMargin,100);assert.equal(x.illustrativeMarginWarning,false);});
+
+test('overnight scenario supports a provider-dependent signed credit or debit adjustment',()=>{
+ const credit=estimateCfdScenario({capital:100,direction:1,entry:100,exit:100,notional:500,leverage:5,overnightPercentPerDay:-0.02,days:2});
+ assert.equal(credit.financingCost,-0.2);
+ assert.equal(credit.totalCosts,-0.2);
+ assert.equal(credit.netPnl,0.2);
+ assert.match(html,/positif débité, négatif crédité/i);
+ assert.throws(()=>estimateCfdScenario({capital:100,direction:1,entry:100,exit:101,notional:100,leverage:2,overnightPercentPerDay:-10.01}),/Paramètres de scénario/);
+});
+
 test('scenario signals maintenance threshold and rejects invalid direction',()=>{const x=estimateCfdScenario({capital:100,direction:-1,entry:100,exit:130,notional:500,leverage:5});assert.equal(x.illustrativeMarginWarning,true);assert.throws(()=>estimateCfdScenario({capital:100,direction:0,entry:100,exit:101,notional:100,leverage:2}),/Paramètres de scénario/);});
 
 import { sanitizeVirtualSession } from '../src/simulator-engine.mjs';
