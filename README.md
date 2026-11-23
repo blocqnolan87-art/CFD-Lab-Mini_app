@@ -24,7 +24,7 @@ Dans BotFather, configurer le bouton/menu de la Mini App avec l'URL HTTPS publi�
 - Produit d'apprentissage, pas de conseil financier.
 - Les cours affichés sont synthétiques et ne sont pas des cotations de marché ni un historique réel.
 - Capital simulé uniquement : pas de connexion broker/Revolut, pas d'ordre réel.
-- Modèle de PnL volontairement simplifié, sans spread, commissions, financement, marge ou liquidation.
+- Le moteur propose des scénarios pédagogiques de spread, commission, financement overnight, glissement, marge et alerte de maintenance; les paramètres sont saisis et ne représentent pas les conditions d'un courtier. Aucun mécanisme réel de liquidation n'est simulé.
 - La progression pédagogique est stockée localement dans le navigateur.
 - Ne jamais committer de tokens, clés API, identifiants ou secrets.
 - Le code prépare le SDK Telegram côté client; le bot et son URL seront configurés à la fin.
@@ -39,4 +39,4 @@ Dans BotFather, configurer le bouton/menu de la Mini App avec l'URL HTTPS publi�
 
 ## Limites à garder en tête
 
-Le simulateur reste un outil d'apprentissage : données importées par l'utilisateur ou synthétiques, sans flux de cotations garanti. Le P&L n'intègre pas encore fidèlement spread, commissions, financement overnight, marge, liquidation ni glissement. Pas de broker, de compte Revolut ou d'ordre réel. La connexion Telegram Mini App et son test sur iPhone restent une étape manuelle BotFather après confirmation de l'URL HTTPS publiée.
+Le simulateur reste un outil d'apprentissage : données importées par l'utilisateur ou synthétiques, sans flux de cotations garanti. Les coûts (spread, commissions, financement overnight et glissement) sont des hypothèses saisies dans un scénario, non des tarifs de marché vérifiés. Les calculs de marge et d'alerte de maintenance sont illustratifs; ils ne reproduisent pas les règles de liquidation d'un fournisseur. Pas de broker, de compte Revolut ou d'ordre réel. La connexion Telegram Mini App et son test sur iPhone restent une étape manuelle BotFather après confirmation de l'URL HTTPS publiée.
