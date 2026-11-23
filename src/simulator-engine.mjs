@@ -42,8 +42,12 @@ export function parseOhlcCsv(text) {
     return bar;
   });
   if(indexes.time>=0){
-    const stamps=bars.map(b=>Date.parse(b.time));
-    if(stamps.every(Number.isFinite)&&stamps.some((v,i)=>i&&v<=stamps[i-1])) throw new Error("Les dates doivent être strictement chronologiques, sans doublon.");
+    const stamps=bars.map((b,i)=>{
+      const stamp=Date.parse(b.time);
+      if(!Number.isFinite(stamp)) throw new Error("Date/heure invalide à la ligne "+(i+2)+".");
+      return stamp;
+    });
+    if(stamps.some((v,i)=>i&&v<=stamps[i-1])) throw new Error("Les dates doivent être strictement chronologiques, sans doublon.");
   }
   return bars;
 }
