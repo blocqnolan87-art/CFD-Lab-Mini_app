@@ -57,7 +57,7 @@ export function createReplay(bars) {
   return {current:()=>bars[index], hasNext:()=>index<bars.length-1, next:()=>{if(index>=bars.length-1)return null;index+=1;return bars[index]}, position:()=>index+1,total:()=>bars.length};
 }
 export function virtualPnl(direction, entry, current, notional) {
-  if(![direction,entry,current,notional].every(Number.isFinite)||entry<=0||notional<0) throw new Error("Paramètres P&L invalides.");
+  if(![direction,entry,current,notional].every(Number.isFinite)||![1,-1].includes(direction)||entry<=0||current<=0||notional<=0) throw new Error("Paramètres P&L invalides.");
   return direction*(current-entry)*notional/entry;
 }
 
