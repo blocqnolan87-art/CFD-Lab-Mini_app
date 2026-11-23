@@ -16,3 +16,13 @@ test('academy risk exercise controls have unique IDs, separate from simulator co
     assert.ok(html.includes('id="' + id + '"'), 'simulator control remains available: ' + id);
   }
 });
+
+
+test('academy includes accessible gross P&L exercise and eleventh lesson progress range', () => {
+  for (const id of ['pnlDirectionAcademy','pnlNotionalAcademy','pnlMoveAcademy','pnlExerciseAcademy','pnlResultAcademy']) {
+    assert.ok(html.includes('id="' + id + '"'), 'missing P&L exercise control: ' + id);
+  }
+  assert.ok(html.includes('n<=11)'), 'lesson storage accepts the current eleventh lesson');
+  assert.ok(html.includes('P&L brut illustratif'), 'exercise explains gross result');
+  assert.ok(html.includes('aria-live="polite"'), 'result feedback is accessible');
+});
