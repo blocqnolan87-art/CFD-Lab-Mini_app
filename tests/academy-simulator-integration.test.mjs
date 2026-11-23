@@ -32,5 +32,5 @@ test('academy explains market, limit and stop order execution risks in lesson tw
   assert.ok(html.includes('data-lesson="12"'), 'lesson twelve must be tracked in academy progress');
   assert.ok(html.includes('Ordre au marché, limite et stop'), 'lesson title must be present');
   assert.ok(html.includes('peut rester non exécuté'), 'limit-order non-execution risk must be explained');
-  assert.ok(html.includes('Le déclenchement n’assure ni l’exécution ni le prix'), 'stop execution risk must be explicit');
+  assert.ok(html.includes('Le déclenchement n'assure ni l'exécution ni le prix'), 'stop execution risk must be explicit');
 });
