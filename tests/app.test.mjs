@@ -56,6 +56,12 @@ test('CSV rejects malformed OHLC and duplicate/out-of-order dates', () => {
   rows[5]='2026-01-06,10,8,9,11';
   assert.throws(()=>parseOhlcCsv(rows.join('\n')),/Cohérence OHLC/);
 });
+test('CSV rejects unparseable timestamps instead of silently skipping chronology checks', () => {
+  const rows=['Date,Open,High,Low,Close'];
+  for(let i=0;i<20;i++)rows.push('2026-01-'+String(i+1).padStart(2,'0')+',10,12,9,11');
+  rows[7]='not-a-date,10,12,9,11';
+  assert.throws(()=>parseOhlcCsv(rows.join('\\n')),/Date\\/heure invalide/);
+});
 test('step replay reveals bars sequentially and never skips ahead', () => {
   const bars=Array.from({length:20},(_,i)=>({open:10+i,high:12+i,low:9+i,close:11+i}));
   const replay=createReplay(bars);assert.equal(replay.current().close,11);assert.equal(replay.position(),1);
