@@ -41,5 +41,5 @@ test('CSV import rejects impossible candles before replay', () => {
     rows.push(`2026-01-01T${hour}:00:00Z,10,12,9,11`);
   }
   rows[1] = '2026-01-01T00:00:00Z,10,9,8,9';
-  assert.throws(() => parseOhlcCsv(rows.join('\\n')), /Cohérence OHLC/);
+  assert.throws(() => parseOhlcCsv(rows.join('\n')), /Cohérence OHLC/);
 });
